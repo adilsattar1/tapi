@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Why So Serious?</title>
+    <title>ٹپی کا CSS ایڈونچر</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        
         body {
             margin: 0;
             padding: 0;
             background-color: #1a1a1a;
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Nastaliq Urdu', serif;
             color: #fff;
             overflow-x: hidden;
+            text-align: right;
         }
 
         .container {
@@ -33,6 +36,15 @@
             color: #9C27B0;
         }
 
+        .location-badge {
+            background-color: #FF5722;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 10px;
+            font-size: 1.2em;
+        }
+
         .joke-card {
             background-color: #333;
             padding: 20px;
@@ -40,13 +52,15 @@
             margin: 20px 0;
             cursor: pointer;
             transition: transform 0.3s;
+            font-size: 1.5em;
+            line-height: 1.8;
         }
 
         .joke-card:hover {
             transform: scale(1.05);
         }
 
-        .laugh-button {
+        .tappi-button {
             background-color: #4CAF50;
             border: none;
             color: white;
@@ -56,14 +70,15 @@
             border-radius: 5px;
             margin: 20px 0;
             transition: all 0.3s;
+            font-family: 'Noto Nastaliq Urdu', serif;
         }
 
-        .laugh-button:hover {
+        .tappi-button:hover {
             background-color: #9C27B0;
             transform: rotate(5deg);
         }
 
-        .joker-face {
+        .tappi-face {
             font-size: 5em;
             margin: 20px 0;
             animation: bounce 2s infinite;
@@ -74,34 +89,52 @@
             50% { transform: translateY(-20px); }
         }
 
-        .ha-ha {
+        .css-book {
             position: absolute;
             font-size: 2em;
             opacity: 0;
             pointer-events: none;
         }
+
+        .character-info {
+            background-color: #424242;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: right;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 id="title">Why So Serious? 🃏</h1>
-        <div class="joker-face">🤡</div>
-        <div class="joke-card" id="jokeCard">
-            Click for a terrible joke!
+        <h1 id="title">ٹپی کا CSS ایڈونچر 📚</h1>
+        <div class="location-badge">شہر غوث کا شہزادہ</div>
+        <div class="tappi-face">🦷</div>
+        
+        <div class="character-info">
+            خصوصیات: ایک دانت غائب، CSS امیدوار، فیشن سینس = 0
         </div>
-        <button class="laugh-button" id="laughButton">HA HA HA!</button>
+
+        <div class="joke-card" id="jokeCard">
+            !کہانی دیکھنے کے لیے کلک کریں
+        </div>
+        
+        <button class="tappi-button" id="laughButton">!یا اللہ CSS پاس</button>
     </div>
 
     <script>
         const jokes = [
-            "Why did the Joker bring a ladder to the bar? He heard drinks were on the house! 🎭",
-            "What's the Joker's favorite kind of pizza? One with Harley Quinn-oa! 🍕",
-            "Why did the Joker go to the dentist? To get his smile fixed! 😁",
-            "What's the Joker's favorite exercise? Laughing gas-tronomy! 💪",
-            "How does the Joker keep his cards fresh? With Joker-breeze! 🃏"
+            "ٹپی نے CSS سینٹر میں کیا کہا؟ میری انگریزی تو ٹھیک ہے بس دانت کی کمی ہے 😁",
+            "ٹپی کا فیشن فارمولا: چپل + واسکٹ = CSS انٹرویو آؤٹ فٹ 👔",
+            "شہر غوث کے لوگ: ٹپی CSS کیوں دے رہا ہے؟ ٹپی: کیونکہ PMS میں دانت دکھانا ضروری ہے 🦷",
+            "ٹپی کی CSS کی تیاری: سب سے پہلے چائے، پھر کتاب، پھر چائے، پھر سونا 😴",
+            "ٹپی کا موٹو: CSS پاس کرنا ہے، دانت نہیں لگوانا 🎭",
+            "ٹپی کی انگریزی: How am I? نہیں، آئی ایم ہاؤ! 📝",
+            "شہر غوث میں افواہ: ٹپی نے CSS کی کتاب کو تکیہ بنا لیا 📚"
         ];
 
-        let laughCount = 0;
+        let clickCount = 0;
         const title = document.getElementById('title');
         const jokeCard = document.getElementById('jokeCard');
         const laughButton = document.getElementById('laughButton');
@@ -117,29 +150,28 @@
         });
 
         laughButton.addEventListener('click', () => {
-            laughCount++;
-            createHaHa();
-            if (laughCount > 5) {
+            clickCount++;
+            createCSSBook();
+            if (clickCount > 5) {
                 document.body.style.transform = 'rotate(' + (Math.random() * 5 - 2.5) + 'deg)';
             }
         });
 
-        function createHaHa() {
-            const ha = document.createElement('div');
-            ha.className = 'ha-ha';
-            ha.textContent = 'HA!';
-            ha.style.left = Math.random() * window.innerWidth + 'px';
-            ha.style.top = Math.random() * window.innerHeight + 'px';
-            ha.style.color = getRandomColor();
-            document.body.appendChild(ha);
+        function createCSSBook() {
+            const book = document.createElement('div');
+            book.className = 'css-book';
+            book.textContent = '📚';
+            book.style.left = Math.random() * window.innerWidth + 'px';
+            book.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(book);
 
-            ha.style.opacity = 1;
-            ha.style.transform = 'translateY(0)';
+            book.style.opacity = 1;
+            book.style.transform = 'translateY(0)';
 
             setTimeout(() => {
-                ha.style.opacity = 0;
-                ha.style.transform = 'translateY(-100px)';
-                setTimeout(() => ha.remove(), 1000);
+                book.style.opacity = 0;
+                book.style.transform = 'translateY(-100px)';
+                setTimeout(() => book.remove(), 1000);
             }, 500);
         }
 
