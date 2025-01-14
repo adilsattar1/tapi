@@ -7,6 +7,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
         
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -15,9 +21,11 @@
             color: #fff;
             overflow-x: hidden;
             text-align: right;
+            min-height: 100vh;
         }
 
         .container {
+            width: 90%;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
@@ -26,10 +34,12 @@
 
         h1 {
             color: #4CAF50;
-            font-size: 3em;
+            font-size: clamp(1.5rem, 5vw, 3rem);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             cursor: pointer;
             transition: color 0.3s;
+            margin-bottom: 1rem;
+            word-wrap: break-word;
         }
 
         h1:hover {
@@ -38,39 +48,48 @@
 
         .location-badge {
             background-color: #FF5722;
-            padding: 5px 15px;
+            padding: 0.5rem 1rem;
             border-radius: 20px;
             display: inline-block;
-            margin: 10px;
-            font-size: 1.2em;
+            margin: 0.5rem;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
         }
 
         .joke-card {
             background-color: #333;
-            padding: 20px;
+            padding: 1rem;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 1rem 0;
             cursor: pointer;
             transition: transform 0.3s;
-            font-size: 1.5em;
+            font-size: clamp(1rem, 4vw, 1.5rem);
             line-height: 1.8;
+            word-wrap: break-word;
         }
 
         .joke-card:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 480px) {
+            .joke-card:hover {
+                transform: scale(1.01);
+            }
         }
 
         .tappi-button {
             background-color: #4CAF50;
             border: none;
             color: white;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: clamp(0.8rem, 3vw, 1.5rem) clamp(1.5rem, 5vw, 3rem);
+            font-size: clamp(1rem, 3vw, 1.2rem);
             cursor: pointer;
             border-radius: 5px;
-            margin: 20px 0;
+            margin: 1rem 0;
             transition: all 0.3s;
             font-family: 'Noto Nastaliq Urdu', serif;
+            width: fit-content;
+            max-width: 90%;
         }
 
         .tappi-button:hover {
@@ -79,9 +98,10 @@
         }
 
         .tappi-face {
-            font-size: 5em;
-            margin: 20px 0;
+            font-size: clamp(3rem, 10vw, 5rem);
+            margin: 1rem 0;
             animation: bounce 2s infinite;
+            display: inline-block;
         }
 
         @keyframes bounce {
@@ -90,19 +110,89 @@
         }
 
         .css-book {
-            position: absolute;
-            font-size: 2em;
+            position: fixed;
+            font-size: clamp(2rem, 6vw, 3rem);
             opacity: 0;
             pointer-events: none;
+            z-index: 1000;
         }
 
         .character-info {
             background-color: #424242;
-            padding: 15px;
+            padding: 1rem;
             border-radius: 10px;
-            margin: 20px 0;
+            margin: 1rem 0;
             text-align: right;
-            font-size: 1.2em;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            word-wrap: break-word;
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .joke-card:hover {
+                transform: none;
+            }
+
+            .tappi-button:hover {
+                transform: none;
+            }
+
+            .joke-card:active {
+                background-color: #444;
+            }
+
+            .tappi-button:active {
+                background-color: #9C27B0;
+            }
+        }
+
+        /* Small screen optimizations */
+        @media screen and (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+
+            .character-info {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+
+            .location-badge {
+                padding: 0.4rem 0.8rem;
+                margin: 0.4rem;
+            }
+        }
+
+        /* Prevent text overflow on very small screens */
+        @media screen and (max-width: 320px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .joke-card {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .character-info {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            .tappi-face {
+                margin: 0.5rem 0;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .joke-card {
+                margin: 0.5rem 0;
+            }
         }
     </style>
 </head>
@@ -139,17 +229,24 @@
         const jokeCard = document.getElementById('jokeCard');
         const laughButton = document.getElementById('laughButton');
 
-        title.addEventListener('click', () => {
+        // Touch-friendly event handling
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const clickEvent = isTouchDevice ? 'touchstart' : 'click';
+
+        title.addEventListener(clickEvent, (e) => {
+            if(isTouchDevice) e.preventDefault();
             title.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
         });
 
-        jokeCard.addEventListener('click', () => {
+        jokeCard.addEventListener(clickEvent, (e) => {
+            if(isTouchDevice) e.preventDefault();
             const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
             jokeCard.textContent = randomJoke;
             jokeCard.style.backgroundColor = getRandomColor();
         });
 
-        laughButton.addEventListener('click', () => {
+        laughButton.addEventListener(clickEvent, (e) => {
+            if(isTouchDevice) e.preventDefault();
             clickCount++;
             createCSSBook();
             if (clickCount > 5) {
@@ -161,8 +258,13 @@
             const book = document.createElement('div');
             book.className = 'css-book';
             book.textContent = '📚';
-            book.style.left = Math.random() * window.innerWidth + 'px';
-            book.style.top = Math.random() * window.innerHeight + 'px';
+            
+            // Adjust position calculation for mobile
+            const maxWidth = window.innerWidth - 50;
+            const maxHeight = window.innerHeight - 50;
+            book.style.left = Math.min(Math.random() * window.innerWidth, maxWidth) + 'px';
+            book.style.top = Math.min(Math.random() * window.innerHeight, maxHeight) + 'px';
+            
             document.body.appendChild(book);
 
             book.style.opacity = 1;
@@ -178,6 +280,15 @@
         function getRandomColor() {
             const colors = ['#4CAF50', '#9C27B0', '#FF5722', '#2196F3', '#FFC107'];
             return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Prevent zoom on double tap for touch devices
+        if(isTouchDevice) {
+            document.addEventListener('touchstart', (e) => {
+                if(e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
         }
     </script>
 </body>
