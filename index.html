@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ٹپی کا CSS ایڈونچر</title>
+    <title>ٹپی کی کہانیاں - شاہ نواز شر گوٹھ سے CSS تک</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
         
+        :root {
+            --primary: #4a90e2;
+            --secondary: #9b59b6;
+            --accent: #ff7676;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,282 +20,402 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #1a1a1a;
+            background-color: #f0f2f5;
             font-family: 'Noto Nastaliq Urdu', serif;
-            color: #fff;
+            line-height: 1.6;
             overflow-x: hidden;
-            text-align: right;
-            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '📚';
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.1;
+            animation: floatBook 20s linear infinite;
+            right: -100px;
+        }
+
+        @keyframes floatBook {
+            from { transform: translateX(0) rotate(0deg); }
+            to { transform: translateX(-1200px) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 1rem;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         .container {
-            width: 90%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
 
-        h1 {
-            color: #4CAF50;
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            cursor: pointer;
-            transition: color 0.3s;
-            margin-bottom: 1rem;
-            word-wrap: break-word;
-        }
-
-        h1:hover {
-            color: #9C27B0;
-        }
-
-        .location-badge {
-            background-color: #FF5722;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: inline-block;
-            margin: 0.5rem;
-            font-size: clamp(0.9rem, 3vw, 1.2rem);
-        }
-
-        .joke-card {
-            background-color: #333;
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .blog-card:hover .card-image {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .card-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .blog-card:hover .card-title {
+            color: var(--primary);
+        }
+
+        .card-excerpt {
+            color: #555;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .read-more::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .read-more:hover::after {
+            left: 100%;
+        }
+
+        .location-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transform-origin: right;
+            transition: transform 0.3s;
+        }
+
+        .blog-card:hover .location-tag {
+            transform: scale(1.1);
+        }
+
+        .reaction-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        .reaction-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             cursor: pointer;
             transition: transform 0.3s;
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            line-height: 1.8;
-            word-wrap: break-word;
+            position: relative;
         }
 
-        .joke-card:hover {
-            transform: scale(1.02);
+        .reaction-button:hover {
+            transform: scale(1.2);
         }
 
-        @media (max-width: 480px) {
-            .joke-card:hover {
-                transform: scale(1.01);
+        .reaction-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: #333;
+            color: white;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::after {
+            content: '🦷';
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0.1;
+            animation: rotateTooth 10s linear infinite;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes rotateTooth {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        #scrollToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(100px);
+        }
+
+        #scrollToTop.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .card-content {
+                padding: 1rem;
+            }
+
+            .blog-card {
+                animation: none;
+                opacity: 1;
+                transform: none;
             }
         }
 
-        .tappi-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: clamp(0.8rem, 3vw, 1.5rem) clamp(1.5rem, 5vw, 3rem);
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 1rem 0;
-            transition: all 0.3s;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            width: fit-content;
-            max-width: 90%;
-        }
-
-        .tappi-button:hover {
-            background-color: #9C27B0;
-            transform: rotate(5deg);
-        }
-
-        .tappi-face {
-            font-size: clamp(3rem, 10vw, 5rem);
-            margin: 1rem 0;
-            animation: bounce 2s infinite;
-            display: inline-block;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .css-book {
+        .loading-animation {
             position: fixed;
-            font-size: clamp(2rem, 6vw, 3rem);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .loading-animation.hidden {
             opacity: 0;
             pointer-events: none;
-            z-index: 1000;
         }
 
-        .character-info {
-            background-color: #424242;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-            text-align: right;
-            font-size: clamp(0.9rem, 3vw, 1.2rem);
-            word-wrap: break-word;
-        }
-
-        /* Touch device optimizations */
-        @media (hover: none) {
-            .joke-card:hover {
-                transform: none;
-            }
-
-            .tappi-button:hover {
-                transform: none;
-            }
-
-            .joke-card:active {
-                background-color: #444;
-            }
-
-            .tappi-button:active {
-                background-color: #9C27B0;
-            }
-        }
-
-        /* Small screen optimizations */
-        @media screen and (max-width: 480px) {
-            .container {
-                width: 95%;
-                padding: 10px;
-            }
-
-            .character-info {
-                font-size: 1rem;
-                padding: 0.8rem;
-            }
-
-            .location-badge {
-                padding: 0.4rem 0.8rem;
-                margin: 0.4rem;
-            }
-        }
-
-        /* Prevent text overflow on very small screens */
-        @media screen and (max-width: 320px) {
-            h1 {
-                font-size: 1.2rem;
-            }
-
-            .joke-card {
-                font-size: 0.9rem;
-                line-height: 1.6;
-            }
-
-            .character-info {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Landscape orientation adjustments */
-        @media screen and (orientation: landscape) and (max-height: 500px) {
-            .tappi-face {
-                margin: 0.5rem 0;
-            }
-
-            .container {
-                padding: 10px;
-            }
-
-            .joke-card {
-                margin: 0.5rem 0;
-            }
+        .loading-emoji {
+            font-size: 3rem;
+            animation: bounce 1s infinite;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="title">ٹپی کا CSS ایڈونچر 📚</h1>
-        <div class="location-badge">شہر غوث کا شہزادہ</div>
-        <div class="tappi-face">🦷</div>
-        
-        <div class="character-info">
-            خصوصیات: ایک دانت غائب، CSS امیدوار، فیشن سینس = 0
-        </div>
-
-        <div class="joke-card" id="jokeCard">
-            !کہانی دیکھنے کے لیے کلک کریں
-        </div>
-        
-        <button class="tappi-button" id="laughButton">!یا اللہ CSS پاس</button>
+    <div class="loading-animation">
+        <div class="loading-emoji">🦷</div>
     </div>
 
+    <header class="header">
+        <h1>ٹپی کی کہانیاں</h1>
+        <div class="subtitle">شاہ نواز شر گوٹھ سے CSS تک کا سفر 📚</div>
+    </header>
+
+    <div class="container">
+        <div class="blog-grid">
+            <!-- Blog cards here (same as before but with reaction buttons added) -->
+            <article class="blog-card">
+                <img src="/api/placeholder/400/320" alt="Tappi's CSS Adventure" class="card-image">
+                <div class="card-content">
+                    <div class="location-tag">شاہ نواز شر گوٹھ</div>
+                    <div class="card-date">14 جنوری، 2025</div>
+                    <h2 class="card-title">ٹپی کی چائے والی CSS</h2>
+                    <p class="card-excerpt">
+                        شاہ نواز شر گوٹھ کے مشہور ڈھابے پر ٹپی نے نئی تکنیک ایجاد کی۔ چائے کی پیالی پر CSS کی کتاب رکھ کر پڑھنے سے علم بخار کی طرح چڑھتا ہے۔ لیکن چائے ٹھنڈی ہو گئی اور کتاب گرم! 🫖
+                    </p>
+                    <a href="#" class="read-more">مزید پڑھیں</a>
+                    <div class="reaction-buttons">
+                        <button class="reaction-button" onclick="react(this, '😂')">😂 <span class="reaction-count">0</span></button>
+                        <button class="reaction-button" onclick="react(this, '❤️')">❤️ <span class="reaction-count">0</span></button>
+                    </div>
+                </div>
+            </article>
+            <!-- Add more blog cards with the same structure -->
+        </div>
+    </div>
+
+    <button id="scrollToTop">⬆️</button>
+
+    <footer class="footer">
+        ٹپی کی کہانیاں © 2025 | شاہ نواز شر گوٹھ کا واحد CSS امیدوار
+    </footer>
+
     <script>
-        const jokes = [
-            "ٹپی نے CSS سینٹر میں کیا کہا؟ میری انگریزی تو ٹھیک ہے بس دانت کی کمی ہے 😁",
-            "ٹپی کا فیشن فارمولا: چپل + واسکٹ = CSS انٹرویو آؤٹ فٹ 👔",
-            "شہر غوث کے لوگ: ٹپی CSS کیوں دے رہا ہے؟ ٹپی: کیونکہ PMS میں دانت دکھانا ضروری ہے 🦷",
-            "ٹپی کی CSS کی تیاری: سب سے پہلے چائے، پھر کتاب، پھر چائے، پھر سونا 😴",
-            "ٹپی کا موٹو: CSS پاس کرنا ہے، دانت نہیں لگوانا 🎭",
-            "ٹپی کی انگریزی: How am I? نہیں، آئی ایم ہاؤ! 📝",
-            "شہر غوث میں افواہ: ٹپی نے CSS کی کتاب کو تکیہ بنا لیا 📚"
-        ];
-
-        let clickCount = 0;
-        const title = document.getElementById('title');
-        const jokeCard = document.getElementById('jokeCard');
-        const laughButton = document.getElementById('laughButton');
-
-        // Touch-friendly event handling
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        const clickEvent = isTouchDevice ? 'touchstart' : 'click';
-
-        title.addEventListener(clickEvent, (e) => {
-            if(isTouchDevice) e.preventDefault();
-            title.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        // Loading animation
+        window.addEventListener('load', () => {
+            document.querySelector('.loading-animation').classList.add('hidden');
         });
 
-        jokeCard.addEventListener(clickEvent, (e) => {
-            if(isTouchDevice) e.preventDefault();
-            const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
-            jokeCard.textContent = randomJoke;
-            jokeCard.style.backgroundColor = getRandomColor();
-        });
-
-        laughButton.addEventListener(clickEvent, (e) => {
-            if(isTouchDevice) e.preventDefault();
-            clickCount++;
-            createCSSBook();
-            if (clickCount > 5) {
-                document.body.style.transform = 'rotate(' + (Math.random() * 5 - 2.5) + 'deg)';
+        // Scroll to top button
+        const scrollBtn = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.add('visible');
+            } else {
+                scrollBtn.classList.remove('visible');
             }
         });
 
-        function createCSSBook() {
-            const book = document.createElement('div');
-            book.className = 'css-book';
-            book.textContent = '📚';
-            
-            // Adjust position calculation for mobile
-            const maxWidth = window.innerWidth - 50;
-            const maxHeight = window.innerHeight - 50;
-            book.style.left = Math.min(Math.random() * window.innerWidth, maxWidth) + 'px';
-            book.style.top = Math.min(Math.random() * window.innerHeight, maxHeight) + 'px';
-            
-            document.body.appendChild(book);
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
 
-            book.style.opacity = 1;
-            book.style.transform = 'translateY(0)';
+        // Reaction system
+        function react(button, emoji) {
+            const countSpan = button.querySelector('.reaction-count');
+            let count = parseInt(countSpan.textContent);
+            count++;
+            countSpan.textContent = count;
+            
+            // Create floating emoji effect
+            const floatingEmoji = document.createElement('span');
+            floatingEmoji.textContent = emoji;
+            floatingEmoji.style.position = 'absolute';
+            floatingEmoji.style.right = '0';
+            floatingEmoji.style.fontSize = '1.5rem';
+            floatingEmoji.style.pointerEvents = 'none';
+            button.appendChild(floatingEmoji);
 
-            setTimeout(() => {
-                book.style.opacity = 0;
-                book.style.transform = 'translateY(-100px)';
-                setTimeout(() => book.remove(), 1000);
-            }, 500);
+            // Animate and remove
+            floatingEmoji.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: 'translate(0, -50px) scale(1.5)', opacity: 0 }
+            ], {
+                duration: 1000,
+                easing: 'ease-out'
+            }).onfinish = () => floatingEmoji.remove();
         }
 
-        function getRandomColor() {
-            const colors = ['#4CAF50', '#9C27B0', '#FF5722', '#2196F3', '#FFC107'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // Prevent zoom on double tap for touch devices
-        if(isTouchDevice) {
-            document.addEventListener('touchstart', (e) => {
-                if(e.touches.length > 1) {
-                    e.preventDefault();
+        // Intersection Observer for card animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideUp 0.6s ease-out forwards';
+                    observer.unobserve(entry.target);
                 }
-            }, { passive: false });
-        }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.blog-card').forEach(card => {
+            observer.observe(card);
+        });
     </script>
 </body>
 </html>
