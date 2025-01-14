@@ -1,1 +1,152 @@
-Website Launches at 12:00 AM, Pakistan Timing Until then KeeP Visiting the website.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why So Serious?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        h1:hover {
+            color: #9C27B0;
+        }
+
+        .joke-card {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .joke-card:hover {
+            transform: scale(1.05);
+        }
+
+        .laugh-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+
+        .laugh-button:hover {
+            background-color: #9C27B0;
+            transform: rotate(5deg);
+        }
+
+        .joker-face {
+            font-size: 5em;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .ha-ha {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">Why So Serious? 🃏</h1>
+        <div class="joker-face">🤡</div>
+        <div class="joke-card" id="jokeCard">
+            Click for a terrible joke!
+        </div>
+        <button class="laugh-button" id="laughButton">HA HA HA!</button>
+    </div>
+
+    <script>
+        const jokes = [
+            "Why did the Joker bring a ladder to the bar? He heard drinks were on the house! 🎭",
+            "What's the Joker's favorite kind of pizza? One with Harley Quinn-oa! 🍕",
+            "Why did the Joker go to the dentist? To get his smile fixed! 😁",
+            "What's the Joker's favorite exercise? Laughing gas-tronomy! 💪",
+            "How does the Joker keep his cards fresh? With Joker-breeze! 🃏"
+        ];
+
+        let laughCount = 0;
+        const title = document.getElementById('title');
+        const jokeCard = document.getElementById('jokeCard');
+        const laughButton = document.getElementById('laughButton');
+
+        title.addEventListener('click', () => {
+            title.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+        });
+
+        jokeCard.addEventListener('click', () => {
+            const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+            jokeCard.textContent = randomJoke;
+            jokeCard.style.backgroundColor = getRandomColor();
+        });
+
+        laughButton.addEventListener('click', () => {
+            laughCount++;
+            createHaHa();
+            if (laughCount > 5) {
+                document.body.style.transform = 'rotate(' + (Math.random() * 5 - 2.5) + 'deg)';
+            }
+        });
+
+        function createHaHa() {
+            const ha = document.createElement('div');
+            ha.className = 'ha-ha';
+            ha.textContent = 'HA!';
+            ha.style.left = Math.random() * window.innerWidth + 'px';
+            ha.style.top = Math.random() * window.innerHeight + 'px';
+            ha.style.color = getRandomColor();
+            document.body.appendChild(ha);
+
+            ha.style.opacity = 1;
+            ha.style.transform = 'translateY(0)';
+
+            setTimeout(() => {
+                ha.style.opacity = 0;
+                ha.style.transform = 'translateY(-100px)';
+                setTimeout(() => ha.remove(), 1000);
+            }, 500);
+        }
+
+        function getRandomColor() {
+            const colors = ['#4CAF50', '#9C27B0', '#FF5722', '#2196F3', '#FFC107'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
